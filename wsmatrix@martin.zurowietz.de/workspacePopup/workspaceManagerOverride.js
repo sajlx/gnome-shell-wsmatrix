@@ -14,6 +14,7 @@ const WraparoundMode = {
     NEXT_PREV: 1,
     ROW_COL: 2,
     NEXT_PREV_BORDER: 3,
+    ROW_COL_BORDER: 4,
 };
 
 export default class WorkspaceManagerOverride {
@@ -522,6 +523,33 @@ export default class WorkspaceManagerOverride {
                         targetRow += offset;
                     } else if (direction === Meta.MotionDirection.LEFT || direction === Meta.MotionDirection.RIGHT) {
                         targetColumn += offset;
+                    }
+                case WraparoundMode.ROW_COL_BORDER:
+                    if (direction === Meta.MotionDirection.UP){
+                        if (currentIndex > this.rows ) {
+                            targetRow += offset;
+                        } else {
+                            break;
+                        }
+                    } else if (direction === Meta.MotionDirection.DOWN){
+                        if (currentIndex < (this.rows * (this.columns - 1)) ) {
+                            targetRow += offset;
+                        } else {
+                            break;
+                        }
+
+                    } else if (direction === Meta.MotionDirection.LEFT) {
+                        if (currentIndex % this.columns > 0) {
+                            targetColumn += offset;
+                        } else {
+                            break;
+                        }
+                    } else if (direction === Meta.MotionDirection.RIGHT) {
+                        if (currentIndex % this.columns < (this.columns - 1)) {
+                            targetColumn += offset;
+                        } else {
+                            break;
+                        }
                     }
                 default:
                     // Nothing.
